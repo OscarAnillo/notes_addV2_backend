@@ -1,0 +1,16 @@
+{
+  "name": "backend_intro",
+  "version": "1.0.0",
+  "description": "This is the intro to the backend",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Oscar Anillo",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22"
+  }
+}
