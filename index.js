@@ -1,7 +1,11 @@
+require("dotenv").config();
+
 const express = require("express");
 const app = express();
 
-const PORT = process.env.PORT || 3005;
+const Note = require("./models/notes.js");
+
+const PORT = process.env.PORT;
 
 let notes = [
   {
@@ -35,7 +39,9 @@ app.get("/", (req, res) => {
 
 //Show collection of notes
 app.get("/api/notes", (req, res) => {
-  res.json(notes);
+  Note.find({}).then((notes) => {
+    res.json(notes);
+  });
 });
 
 //Show a singleton from collection
@@ -56,23 +62,24 @@ const generateId = () => {
 
 //Create a new item in the collection
 app.post("/api/notes", (req, res) => {
-  const note = req.body;
-  if (!note.content) {
+  const body = req.body;
+  if (body.content === undefined) {
     return res.status(400).json({
       error: "Content is required",
     });
   }
 
-  const newNoteBack = {
+  const newNote = new Note({
     id: generateId(),
-    content: note.content,
+    content: body.content,
     date: new Date(),
-    import: note.important || false,
-  };
+    import: body.important || false,
+  });
 
-  //console.log(newNoteBack);
-  notes = notes.concat(newNoteBack);
-  res.json(newNoteBack);
+  //console.log(newNote);
+  newNote.save().then((savedNote) => {
+    res.json(savedNote);
+  });
 });
 
 //Delete a singleton from collection
