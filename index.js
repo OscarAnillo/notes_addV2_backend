@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
+const cors = require("cors");
 
 const Note = require("./models/notes.js");
 
@@ -29,6 +30,7 @@ let notes = [
 ];
 
 //Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.static("build"));
 
